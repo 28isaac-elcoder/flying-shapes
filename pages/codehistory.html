@@ -1,0 +1,31 @@
+<!-- mathgame.html as of 07/09/2025 -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Ninja</title>
+    <link rel="stylesheet" href="..\styles\styles.css" />
+  </head>
+  <body>
+    <div id="game-container"></div>
+
+    <!-- High Score Display -->
+    <div id="high-score-display">
+      <span>High Score: </span>
+      <span id="high-score-value">0</span>
+    </div>
+
+    <!-- Controls area with both buttons -->
+    <div id="controls">
+      <!-- <a href="../index.html" class="home-btn">← Back to Home</a> -->
+      <button id="home-btn" onclick="window.location.href='../index.html'">
+        Home
+      </button>
+      <button id="start-btn">Start</button>
+    </div>
+
+    <script src="..\scripts\mathgame.js" defer></script>
+  </body>
+</html>

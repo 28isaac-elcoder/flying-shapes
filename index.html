@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Ninja - Welcome</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body>
+    <div class="landing-container">
+      <h1 class="game-title">Flying Shapes</h1>
+      <p class="game-subtitle">Choose your game mode below</p>
+
+      <div class="landing-controls">
+        <a href="pages/shapegame.html" class="proceed-btn">Shape Game</a>
+        <a href="pages/mathgame.html" class="proceed-btn">Math Game</a>
+      </div>
+
+      <div class="high-scores-section">
+        <div class="high-score-item">
+          <span class="high-score-label">Shape Game High Score:</span>
+          <span id="shapegame-high-score" class="high-score-value">0</span>
+          <button id="reset-shapegame-high-score-btn" class="reset-btn">
+            Reset
+          </button>
+        </div>
+
+        <div class="high-score-item">
+          <span class="high-score-label">Math Game High Score:</span>
+          <span id="mathgame-high-score" class="high-score-value">0</span>
+          <button id="reset-mathgame-high-score-btn" class="reset-btn">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/homepage.js"></script>
+  </body>
+</html>

@@ -1,0 +1,683 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  display: flex;
+  flex-direction: column; /* stack container and button vertically */
+  align-items: center;
+}
+
+/* Landing page styles start */
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.game-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: #fff;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+  /*text-shadow: 0 0 20px rgba(66, 233, 143, 0.5);*/
+  letter-spacing: 2px;
+}
+
+.game-subtitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: #ccc;
+  margin: 0 0 60px 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.landing-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack children vertically */
+  gap: 10px; /* Space between buttons */
+  font-size: clamp(1rem, 7vw, 1.2rem);
+}
+
+.proceed-btn {
+  display: inline-block;
+  padding: clamp(12px, 3vw, 15px) clamp(20px, 4vw, 30px);
+  font-size: clamp(1rem, 7vw, 1.2rem);
+  background-color: #42e98f;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: clamp(180px, 50vw, 200px);
+  min-height: clamp(44px, 6vh, 50px);
+  text-align: center;
+  border: 2px solid transparent;
+  /* Ensure touch-friendly sizing on mobile */
+  touch-action: manipulation;
+}
+
+.proceed-btn:hover {
+  background-color: #3dd17f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(66, 233, 143, 0.3);
+}
+
+.proceed-btn:active {
+  transform: translateY(0);
+}
+
+.high-scores-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.high-score-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  min-width: 300px;
+  justify-content: space-between;
+}
+
+.high-score-label {
+  font-weight: bold;
+  color: #fff;
+}
+
+.high-score-value {
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 1.2rem;
+}
+
+.reset-btn {
+  padding: 0.5rem 1rem;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.reset-btn:hover {
+  background: #ff5252;
+}
+
+/* Landing page styles end */
+
+/* Game area — 80vh tall, 90vw wide, centered horizontally */
+#game-container {
+  position: relative;
+  width: 90vw;
+  height: 80vh;
+  margin-top: 2vh; /* space from top of screen */
+  background-color: #333;
+  border: 2px solid #fff;
+  overflow: hidden;
+  /* Prevent touch scrolling on the game area */
+  touch-action: none;
+  /* Add smooth transition for background color changes */
+  transition: background-color 0.25s ease-in-out;
+}
+
+.circle,
+.square,
+.triangle,
+.hexagon {
+  position: absolute;
+  width: 16vw;
+  height: 16vw;
+  max-width: 40px;
+  max-height: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  pointer-events: auto; /* Ensure clicks are captured */
+  /*border: 1px solid #00021f;*/
+  /*z-index: 10; /* Ensure circles are above other elements */
+  /*cursor: pointer; /* Visual feedback that it's clickable */
+}
+
+/* Square shape*/
+/*
+.square {
+}
+*/
+
+.circle {
+  border-radius: 50%; /* this line makes the circles round */
+  /*z-index: 10; /* Ensure circles are above other elements */
+  /*cursor: pointer; /* Visual feedback that it's clickable */
+}
+
+/* Triangle shape */
+.triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Hexagon shape */
+.hexagon {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.circle.clicked,
+.square.clicked,
+.triangle.clicked,
+.hexagon.clicked {
+  /* Visual feedback for clicked circles */
+  border: 3px solid #ffffff !important;
+  box-shadow: 0 0 0.7vw #4caf50; /* Glowing effect */
+  transform: translateX(-50%) scale(1.4); /* Slightly larger */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+.circle.deadclicked,
+.square.deadclicked,
+.triangle.deadclicked,
+.hexagon.deadclicked {
+  /* Visual feedback for clicked squares */
+  border: 3px solid #ff4444 !important;
+  box-shadow: 0 0 0.7vw #ff4444; /* Red glowing effect */
+  transform: translateX(-50%) scale(1.4); /* Slightly larger */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Button area — sits below game container (where the shapes fly) */
+#controls {
+  height: 13vh; /* reserved bottom space */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* center buttons vertically */
+  /*padding-top: 2vh; /* reduced top padding to fit both buttons */
+  gap: 20px; /* space between buttons */
+  flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+/* This is for the button which brings players back to the home screen */
+/*
+#home-btn {
+  display: inline-block;
+  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  background-color: rgba(206, 10, 10, 0.9);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /*border: 2px solid #fff;*/
+/*
+  backdrop-filter: blur(5px);
+  */
+/* Ensure touch-friendly sizing on mobile */
+/*
+  min-width: clamp(80px, 15vw, 120px);
+  min-height: clamp(36px, 5vh, 44px);
+  touch-action: manipulation;
+  */
+/* Match start button dimensions exactly */
+/*
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(36px, 5vh, 44px);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+*/
+
+#home-btn {
+  /*
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(36px, 5vh, 44px);
+  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
+  */
+  width: clamp(80px, 15vw, 120px);
+  height: 80%;
+
+  display: inline-block;
+  background-color: rgba(206, 10, 10, 0.9);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: none;
+  backdrop-filter: blur(5px);
+  line-height: 1;
+  min-width: 60px; /* keep usable on mobile */
+  min-height: 35px;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  cursor: pointer;
+  /* Ensure touch-friendly sizing on mobile */
+  touch-action: manipulation;
+}
+
+#home-btn:hover {
+  background-color: rgba(114, 3, 3, 0.9);
+  /*border-color: #42e98f;*/
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(206, 10, 10, 0.3);
+}
+
+#home-btn:active {
+  transform: translateY(0);
+}
+
+#start-btn {
+  /*
+  width: clamp(80px, 15vw, 120px);
+  height: clamp(36px, 5vh, 44px);
+  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
+  */
+
+  width: clamp(80px, 15vw, 120px);
+  height: 80%;
+
+  min-width: 60px; /* keep usable on mobile */
+  min-height: 35px;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  /* Ensure touch-friendly sizing on mobile */
+  touch-action: manipulation;
+}
+
+#start-btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  #game-container {
+    margin-top: 1vh; /* Reduce top margin on mobile */
+  }
+
+  #high-score-display {
+    margin: 0.3vh 0; /* Even smaller margins on mobile */
+    padding: 0.3vh 0;
+    min-height: 3vh; /* Smaller height on mobile */
+  }
+
+  #controls {
+    flex-direction: column; /* stack buttons vertically on mobile */
+    gap: 15px; /* reduce gap for mobile */
+    padding-top: 1vh; /* adjust padding for vertical layout */
+    height: 12vh; /* Reduce controls height on mobile */
+  }
+
+  #home-btn {
+    width: 100px;
+    height: 48px;
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+
+  .proceed-btn {
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    min-width: 200px;
+    min-height: 50px;
+  }
+
+  #start-btn {
+    width: 100px;
+    height: 48px;
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+
+/* Extra safety for very small screens */
+@media (max-height: 600px) {
+  #game-container {
+    /* height: 70vh; */
+    margin-top: 0.5vh;
+  }
+
+  #high-score-display {
+    margin: 0.2vh 0;
+    padding: 0.2vh 0;
+    min-height: 2vh;
+  }
+
+  #controls {
+    height: 8vh;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  #game-container {
+    margin-top: 1vh;
+  }
+
+  #high-score-display {
+    margin: 0.2vh 0;
+    padding: 0.2vh 0;
+    min-height: 2.5vh;
+  }
+
+  #controls {
+    gap: 12px; /* even smaller gap for very small screens */
+    padding-top: 2vh;
+    height: 10vh; /* Minimal controls height on small mobile */
+  }
+
+  #home-btn {
+    width: 90px;
+    height: 44px;
+    font-size: 0.95rem;
+    padding: 10px 18px;
+  }
+
+  .proceed-btn {
+    padding: 14px 20px;
+    font-size: 1rem;
+    min-width: 180px;
+    min-height: 48px;
+  }
+
+  #start-btn {
+    width: 90px;
+    height: 44px;
+    font-size: 0.95rem;
+    padding: 10px 18px;
+  }
+}
+
+/* Click counter styles */
+#click-counter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center click-counter box within game-container (parent element) */
+
+  color: rgba(227, 9, 9, 0.3); /* Semi-transparent white text */
+
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+
+  padding: 0;
+  border-radius: 0; /* No rounded corners for full coverage */
+  font-size: clamp(
+    2rem,
+    min(100vh, 100vw),
+    25rem
+  ); /* Responsive font that respects container */
+  font-weight: bold;
+  z-index: 0; /* Lower z-index so it's behind other elements */
+  backdrop-filter: none; /* Remove blur effect */
+  min-width: 100%; /* Take up 90% of container width */
+  height: 100%; /* Take up 90% of container height */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Make it look more like a background element */
+  pointer-events: none; /* Allow clicks to pass through */
+  user-select: none; /* Prevent text selection */
+  line-height: 1;
+  /* Ensure it doesn't interfere with game elements */
+  mix-blend-mode: normal;
+}
+
+/* Mobile adjustments for counter */
+/*
+@media (max-width: 768px) {
+  #click-counter {
+    height: 90%;
+    min-width: 95%;
+  }
+}
+*/
+
+/*
+@media (max-width: 480px) {
+  #click-counter {
+    height: 90%;
+    min-width: 98%;
+  }
+}
+*/
+
+/* High Score Display */
+#high-score-display {
+  text-align: center;
+  margin: 0.5vh 0; /* Reduced from 2vh to fit better */
+  padding: 0.5vh 0; /* Reduced from 1vh to fit better */
+  color: #fff;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: bold;
+  background-color: rgba(51, 51, 51, 0.8);
+  border-radius: 8px;
+  min-width: 200px;
+  align-self: center;
+
+  /* Fix vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4vh; /* Ensure consistent height */
+}
+
+#high-score-value {
+  color: #42e98f;
+  margin-left: 5px;
+}
+
+/* Add these styles for the image-based shapes */
+.square img,
+.circle img {
+  /* width: 50px; /* Adjust size as needed */
+  /* height: 50px; /* Adjust size as needed */
+  object-fit: cover; /* Ensures images maintain aspect ratio */
+  border-radius: 0; /* Remove any border radius for squares */
+}
+
+/* If you want to keep the existing square/circle classes working with images */
+.square,
+.circle {
+  display: inline-block;
+  /* width: 50px; /* Adjust size as needed */
+  /* height: 50px; /* Adjust size as needed */
+}
+
+/* BENEATH THESE LINES IS THE SHAPEGAME CSS */
+/* BENEATH THESE LINES IS THE MATHGAME CSS */
+/* BENEATH THESE LINES IS THE MATHGAME CSS */
+
+.numbox {
+  position: absolute;
+  width: 12vw;
+  height: 12vw;
+  max-width: 80px;
+  max-height: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  pointer-events: auto; /* Ensure clicks are captured */
+  /*border: 1px solid #00021f;*/
+  /*z-index: 10; /* Ensure circles are above other elements */
+  /*cursor: pointer; /* Visual feedback that it's clickable */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  overflow: hidden;
+  user-select: none; /* Prevent text selection */
+
+  /* Match click-counter styling */
+  color: rgba(15, 1, 1, 0.925);
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+  font-weight: bold;
+}
+
+.numbox.clicked {
+  /* Visual feedback for clicked circles */
+  border: 3px solid #ffffff !important;
+  box-shadow: 0 0 0.7vw #4caf50; /* Glowing effect */
+  transform: translateX(-50%) scale(1.4); /* Slightly larger */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+.numbox.deadclicked {
+  /* Visual feedback for clicked squares */
+  border: 3px solid #ff4444 !important;
+  box-shadow: 0 0 0.7vw #ff4444; /* Red glowing effect */
+  transform: translateX(-50%) scale(1.4); /* Slightly larger */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Equation Display (replaces click-counter) */
+#equation-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  text-align: center;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: normal;
+  color: rgba(25, 5, 136, 0.35);
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+  /* Desktop: horizontal layout, 50% of game container width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em; /* Small gap between equation components */
+  width: 50%;
+  height: auto; /* Let height be determined by content */
+  white-space: nowrap;
+  /* Debug border */
+  /*border: 2px solid rgb(255, 0, 0);*/
+
+  /* Add transition for smooth changes */
+  transition: opacity 0.2s ease;
+}
+
+/* Add transition for equation parts */
+#equation-display .equation-part {
+  transition: all 0.2s ease;
+}
+
+/* Sub-classes for equation display */
+#equation-display.positive .operation,
+#equation-display.positive .second-number {
+  color: rgba(0, 255, 0, 0.35); /* Green for addition */
+}
+
+#equation-display.negative .operation,
+#equation-display.negative .second-number {
+  color: rgba(255, 0, 0, 0.35); /* Red for subtraction */
+}
+
+/* Mobile: vertical layout, 50% of game container height */
+@media (max-width: 768px) {
+  #equation-display {
+    display: flex !important; /* Force flex display */
+    flex-direction: column !important; /* Force vertical layout */
+    align-items: center;
+    justify-content: center; /* Start at top instead of center */
+    height: 50vh !important; /* Force 50% viewport height */
+    white-space: normal;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  #equation-display {
+    gap: 0.05em;
+  }
+}
+
+/* Score Display (replaces high-score-display) */
+#score-display {
+  text-align: center;
+  margin: 0.5vh 0; /* Reduced from 2vh to fit better */
+  padding: 0.5vh 0; /* Reduced from 1vh to fit better */
+  color: #fff;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: bold;
+  background-color: rgba(51, 51, 51, 0.8);
+  border-radius: 8px;
+  min-width: 200px;
+  align-self: center;
+
+  /* Fix vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Mobile adjustments for equation display */
+@media (max-width: 768px) {
+  #equation-display {
+    font-size: clamp(1.5rem, 6vw, 4rem);
+  }
+}
+
+@media (max-width: 480px) {
+  #equation-display {
+    font-size: clamp(1.2rem, 5vw, 3rem);
+  }
+}
+
+/* Mobile adjustments for score display */
+@media (max-width: 768px) {
+  #score-display {
+    margin: 0.3vh 0; /* Even smaller margins on mobile */
+    padding: 0.3vh 0;
+    min-height: 3vh; /* Smaller height on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  #score-display {
+    margin: 0.2vh 0;
+    padding: 0.2vh 0;
+    min-height: 2vh;
+  }
+}
+
+@media (max-width: 480px) {
+  #score-display {
+    margin: 0.2vh 0;
+    padding: 0.2vh 0;
+    min-height: 2.5vh;
+  }
+}
