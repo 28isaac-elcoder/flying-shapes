@@ -23,8 +23,17 @@ pids
 # Dependency directories
 node_modules/
 
+# React build output
+build/
+
 # Optional npm cache directory
 .npm
+
+# React environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Optional REPL history
 .node_repl_history
