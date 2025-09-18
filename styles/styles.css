@@ -154,9 +154,9 @@ body {
 
 /* Square shape*/
 /*
-.square {
-}
-*/
+  .square {
+  }
+  */
 
 .circle {
   border-radius: 50%; /* this line makes the circles round */
@@ -209,43 +209,43 @@ body {
 
 /* This is for the button which brings players back to the home screen */
 /*
-#home-btn {
-  display: inline-block;
-  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
-  font-size: clamp(0.9rem, 2vw, 1rem);
-  background-color: rgba(206, 10, 10, 0.9);
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  /*border: 2px solid #fff;*/
+  #home-btn {
+    display: inline-block;
+    padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    background-color: rgba(206, 10, 10, 0.9);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /*border: 2px solid #fff;*/
 /*
-  backdrop-filter: blur(5px);
-  */
+    backdrop-filter: blur(5px);
+    */
 /* Ensure touch-friendly sizing on mobile */
 /*
-  min-width: clamp(80px, 15vw, 120px);
-  min-height: clamp(36px, 5vh, 44px);
-  touch-action: manipulation;
-  */
+    min-width: clamp(80px, 15vw, 120px);
+    min-height: clamp(36px, 5vh, 44px);
+    touch-action: manipulation;
+    */
 /* Match start button dimensions exactly */
 /*
-  width: clamp(80px, 15vw, 120px);
-  height: clamp(36px, 5vh, 44px);
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-*/
+    width: clamp(80px, 15vw, 120px);
+    height: clamp(36px, 5vh, 44px);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  */
 
 #home-btn {
   /*
-  width: clamp(80px, 15vw, 120px);
-  height: clamp(36px, 5vh, 44px);
-  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
-  */
+    width: clamp(80px, 15vw, 120px);
+    height: clamp(36px, 5vh, 44px);
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
+    */
   width: clamp(80px, 15vw, 120px);
   height: 80%;
 
@@ -279,10 +279,10 @@ body {
 
 #start-btn {
   /*
-  width: clamp(80px, 15vw, 120px);
-  height: clamp(36px, 5vh, 44px);
-  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
-  */
+    width: clamp(80px, 15vw, 120px);
+    height: clamp(36px, 5vh, 44px);
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 20px);
+    */
 
   width: clamp(80px, 15vw, 120px);
   height: 80%;
@@ -447,22 +447,22 @@ body {
 
 /* Mobile adjustments for counter */
 /*
-@media (max-width: 768px) {
-  #click-counter {
-    height: 90%;
-    min-width: 95%;
+  @media (max-width: 768px) {
+    #click-counter {
+      height: 90%;
+      min-width: 95%;
+    }
   }
-}
-*/
+  */
 
 /*
-@media (max-width: 480px) {
-  #click-counter {
-    height: 90%;
-    min-width: 98%;
+  @media (max-width: 480px) {
+    #click-counter {
+      height: 90%;
+      min-width: 98%;
+    }
   }
-}
-*/
+  */
 
 /* High Score Display */
 #high-score-display {
